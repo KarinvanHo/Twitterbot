@@ -1,5 +1,6 @@
 import config
 import tweepy
+from pprint import pprint
 
 
 def about_me(client: tweepy.Client) -> None:
@@ -18,6 +19,10 @@ def get_ztm_tweets(client: tweepy.Client) -> list[tweepy.Tweet]:
 	return response.data
 
 
+def post_tweet(client: tweepy.Client, tweet):
+	response = client.create_tweet(text=tweet)
+	return response.data
+
 if __name__ == "__main__":
 	client = tweepy.Client(
 		bearer_token=config.BEARER_TOKEN,
@@ -26,9 +31,15 @@ if __name__ == "__main__":
 		access_token=config.ACCESS_TOKEN,
 		access_token_secret=config.ACCESS_TOKEN_SECRET,
 	)
+
+
 	print("=== About Me ===")
 	about_me(client)
 	print()
 	print("=== ZTM Tweets ===")
+
 	for tweet in get_ztm_tweets(client):
-		print(tweet, end="\n\n")
+		print(tweet)
+		print("\n============\n")
+
+	# post_tweet(client, "this text will be my tweet")
